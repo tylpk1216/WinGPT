@@ -161,7 +161,7 @@ void processGPTPartitionHeader(char *drv, GPTHeader *gptHeader)
             GPTPartHeader *p = (GPTPartHeader*)&secBuf[128 * i];
 
             if (p->partTypeGUID[0] == 0x00 && p->partTypeGUID[1] == 0x00) {
-                unsigned int count = (gptHeader->startPartHeaderLBA - startSector) * 4 + i;
+                unsigned int count = (startSector - gptHeader->startPartHeaderLBA) * 4 + i;
                 printf("Total Partitions are %d. \r\n", count);
                 return;
             }
