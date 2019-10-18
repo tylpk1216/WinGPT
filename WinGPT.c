@@ -65,7 +65,7 @@ bool ReadSect(const char *dsk, char *buf, unsigned long long num)
     return true;
 }
 //-----------------------------------------------------------------------------
-void showStrValue(const char *str, unsigned char *buf, int size, int isHex)
+void printS(const char *str, unsigned char *buf, int size, int isHex)
 {
     printf("%s", str);
 
@@ -83,23 +83,23 @@ void printGPTHeader(GPTHeader *p)
 {
     printf("First GPT Header \r\n");
     printf("------------------ \r\n");
-    showStrValue("Signature              - ", p->signature, 8, 0);
+    printS("Signature              - ", p->signature, 8, 0);
     printf("Fixed                  - 0x%08X \r\n", p->fixed);
     printf("GPT Header Size        - %d \r\n", p->headerSize);
-    showStrValue("Header CRC32           - ", p->headerCRC32, 4, 1);
+    printS("Header CRC32           - ", p->headerCRC32, 4, 1);
     printf("Reserved               - %d \r\n", p->reserved);
     printf("1st Header LBA         - 0x%X (%llu) \r\n", p->firstHeaderLBA, p->firstHeaderLBA);
     printf("2nd Header LBA         - 0x%X (%llu) \r\n", p->secondHeaderLBA, p->secondHeaderLBA);
     printf("First Partition LBA    - 0x%X \r\n", p->firstPartLBA, p->firstPartLBA);
     printf("Last Partition LBA     - 0x%X \r\n", p->lastPartLBA, p->lastPartLBA);
-    showStrValue("GUID                   - ", p->guid, 16, 1);
+    printS("GUID                   - ", p->guid, 16, 1);
     printf("Start Partition Header - 0x%X (%llu) \r\n", p->startPartHeaderLBA, p->startPartHeaderLBA);
     printf("Partition Count        - %d \r\n", p->partCount);
     printf("Partition Header Size  - %d \r\n", p->partHeaderSize);
-    showStrValue("Partition Seq CRC32    - ", p->partSeqCRC32, 4, 1);
+    printS("Partition Seq CRC32    - ", p->partSeqCRC32, 4, 1);
 }
 //-----------------------------------------------------------------------------
-void printfPartTypeGUID(char *format, unsigned char *buf)
+void printG(char *format, unsigned char *buf)
 {
     printf("%s", format);
 
@@ -130,8 +130,8 @@ void printfGPTPartHeader(int index, GPTPartHeader *p)
 
     printf("GPT Partition Header #%02d \r\n", index);
     printf("--------------------------- \r\n");
-    printfPartTypeGUID("Partition GUID       - ", p->partTypeGUID);
-    showStrValue("GUID                 - ", p->partGUID, 16, 1);
+    printG("Partition GUID       - ", p->partTypeGUID);
+    printS("GUID                 - ", p->partGUID, 16, 1);
     printf("Partition Begin LBA  - 0x%X (%llu) \r\n", p->firstLBA, p->firstLBA);
     printf("Partition End LBA    - 0x%X (%llu) \r\n", p->lastLBA, p->lastLBA);
     printf("4K Alignment         - %d \r\n", is4KAlign);
