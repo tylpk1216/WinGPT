@@ -10,16 +10,16 @@
 
 // GPT Header
 typedef struct GPTHeader_ {
-    char signature[8];
+    unsigned char signature[8];
     unsigned int fixed;
     unsigned int headerSize;
-    char headerCRC32[4];
+    unsigned char headerCRC32[4];
     unsigned int reserved;
     unsigned long long firstHeaderLBA;
     unsigned long long secondHeaderLBA;
     unsigned long long firstPartLBA;
     unsigned long long lastPartLBA;
-    char guid[16];
+    unsigned char guid[16];
     unsigned long long startPartHeaderLBA;
     unsigned int partCount;
     unsigned int partHeaderSize;
@@ -28,12 +28,12 @@ typedef struct GPTHeader_ {
 
 // GPT Partition Header
 typedef struct GPTPartHeader_ {
-    char partTypeGUID[16];
-    char partGUID[16];
+    unsigned char partTypeGUID[16];
+    unsigned char partGUID[16];
     unsigned long long firstLBA;
     unsigned long long lastLBA;
-    char label[8];
-    char name[72];
+    unsigned char label[8];
+    unsigned char name[72];
 } GPTPartHeader;
 
 #pragma pack()
