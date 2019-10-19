@@ -121,7 +121,7 @@ void printG(char *format, unsigned char *buf)
     printf(" \r\n");
 }
 //-----------------------------------------------------------------------------
-void printfGPTPartHeader(int index, GPTPartHeader *p)
+void printGPTPartHeader(int index, GPTPartHeader *p)
 {
     int is4KAlign = 0;
     if ((p->firstLBA * 512) % 4096 == 0) {
@@ -166,7 +166,7 @@ void processGPTPartitionHeader(char *drv, GPTHeader *gptHeader)
                 return;
             }
 
-            printfGPTPartHeader(partIndex++, p);
+            printGPTPartHeader(partIndex++, p);
         }
 
         startSector++;
