@@ -6,9 +6,13 @@ It is written by pure C library and Win32 API.
 It can also check SSD 4K alignment.
 
 ## How to build
-1. Download TDM-gcc-64
+1. Download TDM-GCC-64.
 2. Modify Build.bat for your installation path.
 3. Run Build.bat.
+
+## FAQ
+1. If you run it on Windows 10, you need to use CMD windows that has administrator privilege.
+2. You can use argc to dump another disk information -> "WinGPT.exe 1".
 
 ## Running
 ![running](Result.png)
