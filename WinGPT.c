@@ -3,6 +3,7 @@
 #include <math.h>
 #include <windows.h>
 #include <stdbool.h>
+#include <string.h>
 //-----------------------------------------------------------------------------
 #define SECTOR_SIZE         512
 //-----------------------------------------------------------------------------
@@ -88,12 +89,12 @@ void printGPTHeader(GPTHeader *p)
     printf("GPT Header Size        - %d \r\n", p->headerSize);
     printS("Header CRC32           - ", p->headerCRC32, 4, 1);
     printf("Reserved               - %d \r\n", p->reserved);
-    printf("1st Header LBA         - 0x%X (%llu) \r\n", p->firstHeaderLBA, p->firstHeaderLBA);
-    printf("2nd Header LBA         - 0x%X (%llu) \r\n", p->secondHeaderLBA, p->secondHeaderLBA);
-    printf("First Partition LBA    - 0x%X \r\n", p->firstPartLBA, p->firstPartLBA);
-    printf("Last Partition LBA     - 0x%X \r\n", p->lastPartLBA, p->lastPartLBA);
+    printf("1st Header LBA         - 0x%llX (%llu) \r\n", p->firstHeaderLBA, p->firstHeaderLBA);
+    printf("2nd Header LBA         - 0x%llX (%llu) \r\n", p->secondHeaderLBA, p->secondHeaderLBA);
+    printf("First Partition LBA    - 0x%llX \r\n", p->firstPartLBA);
+    printf("Last Partition LBA     - 0x%llX \r\n", p->lastPartLBA);
     printS("GUID                   - ", p->guid, 16, 1);
-    printf("Start Partition Header - 0x%X (%llu) \r\n", p->startPartHeaderLBA, p->startPartHeaderLBA);
+    printf("Start Partition Header - 0x%llX (%llu) \r\n", p->startPartHeaderLBA, p->startPartHeaderLBA);
     printf("Partition Count        - %d \r\n", p->partCount);
     printf("Partition Header Size  - %d \r\n", p->partHeaderSize);
     printS("Partition Seq CRC32    - ", p->partSeqCRC32, 4, 1);
@@ -134,8 +135,8 @@ void printGPTPartHeader(int index, GPTPartHeader *p)
     printf("--------------------------- \r\n");
     printG("Partition GUID       - ", p->partTypeGUID);
     printS("GUID                 - ", p->partGUID, 16, 1);
-    printf("Partition Begin LBA  - 0x%X (%llu) \r\n", p->firstLBA, p->firstLBA);
-    printf("Partition End LBA    - 0x%X (%llu) \r\n", p->lastLBA, p->lastLBA);
+    printf("Partition Begin LBA  - 0x%llX (%llu) \r\n", p->firstLBA, p->firstLBA);
+    printf("Partition End LBA    - 0x%llX (%llu) \r\n", p->lastLBA, p->lastLBA);
     printf("4K Alignment         - %s \r\n",SSDMsg[is4KAlign]);
     printf("ASD SSD Benchmark    - %llu \r\n", p->firstLBA * 512 / 1024);
     printf("\r\n");
