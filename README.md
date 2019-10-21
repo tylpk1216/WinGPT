@@ -11,8 +11,8 @@ It can also check SSD 4K alignment.
 3. Run Build.bat.
 
 ## FAQ
-1. If you run it on Windows 10, you need to use CMD windows that has administrator privilege.
-2. You can use argc to dump another disk information -> "WinGPT.exe 1".
+1. If you run it on Windows 10, you must use CMD windows that has administrator privilege.
+2. You can use argv to dump another disk information -> "WinGPT.exe 1".
 
 ## Running
 ![running](Result.png)
