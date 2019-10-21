@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 #pragma pack(1)
 
-// GPT Header
+// GPT Header - ignore some fields
 typedef struct GPTHeader_ {
     unsigned char signature[8];
     unsigned int fixed;
@@ -23,7 +23,7 @@ typedef struct GPTHeader_ {
     unsigned long long startPartHeaderLBA;
     unsigned int partCount;
     unsigned int partHeaderSize;
-    char partSeqCRC32[4];
+    unsigned char partSeqCRC32[4];
 } GPTHeader;
 
 // GPT Partition Header
@@ -123,6 +123,8 @@ void printG(char *format, unsigned char *buf)
 //-----------------------------------------------------------------------------
 void printGPTPartHeader(int index, GPTPartHeader *p)
 {
+    char* SSDMsg[2] = {"No", "Yes"};
+
     int is4KAlign = 0;
     if ((p->firstLBA * 512) % 4096 == 0) {
         is4KAlign = 1;
@@ -134,7 +136,7 @@ void printGPTPartHeader(int index, GPTPartHeader *p)
     printS("GUID                 - ", p->partGUID, 16, 1);
     printf("Partition Begin LBA  - 0x%X (%llu) \r\n", p->firstLBA, p->firstLBA);
     printf("Partition End LBA    - 0x%X (%llu) \r\n", p->lastLBA, p->lastLBA);
-    printf("4K Alignment         - %d \r\n", is4KAlign);
+    printf("4K Alignment         - %s \r\n",SSDMsg[is4KAlign]);
     printf("ASD SSD Benchmark    - %llu \r\n", p->firstLBA * 512 / 1024);
     printf("\r\n");
 }
@@ -147,7 +149,6 @@ void processGPTPartitionHeader(char *drv, GPTHeader *gptHeader)
 
     if (partHeaderSize != 128) {
         printf("GPT Partition Header size is %d, not supported yet. \r\n", partHeaderSize);
-
         return;
     }
 
