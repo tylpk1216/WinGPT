@@ -1,7 +1,7 @@
 # WinGPT
 The tool dumps "GPT Header" and "GPT Partition Header" on Windows.
 
-It is written by pure C library and Win32 API.
+It is written by pure C (C99) and Win32 API.
 
 It can also check SSD 4K alignment.
 
