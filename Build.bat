@@ -10,5 +10,4 @@ if "%ERRORLEVEL%" == "0" (
     WinGPT.exe
 )
 
-
-REM pause
+pause
