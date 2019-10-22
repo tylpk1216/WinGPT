@@ -1,7 +1,9 @@
+// for Linux
+#define _LARGEFILE_SOURCE
+//-----------------------------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <windows.h>
 #include <stdbool.h>
 #include <string.h>
 //-----------------------------------------------------------------------------
@@ -46,22 +48,17 @@ bool ReadSect(const char *dsk, char *buf, unsigned long long num)
         return false;
     }
 
-    DWORD dwRead;
-    HANDLE hDisk = CreateFile(dsk, GENERIC_READ, FILE_SHARE_VALID_FLAGS, 0, OPEN_EXISTING, 0, 0);
-    if (hDisk == INVALID_HANDLE_VALUE) {
-        CloseHandle(hDisk);
+    FILE *f = fopen(dsk, "rb");
+    if (!f) {
         return false;
     }
 
-    UINT64 n = num * SECTOR_SIZE;
-    UINT64 base = (UINT64)pow(2, 32);
-    long low = n % base;
-    long hign = n / base;
+    unsigned long long n = num * SECTOR_SIZE;
 
-    SetFilePointer(hDisk, low, &hign, FILE_BEGIN);
-    ReadFile(hDisk, buf, SECTOR_SIZE, &dwRead, 0);
+    fseeko(f, n, SEEK_SET);
+    fread(buf, SECTOR_SIZE, 1, f);
 
-    CloseHandle(hDisk);
+    fclose(f);
 
     return true;
 }
@@ -145,7 +142,6 @@ void printGPTPartHeader(int index, GPTPartHeader *p)
 void processGPTPartitionHeader(char *drv, GPTHeader *gptHeader)
 {
     unsigned long long startSector = gptHeader->startPartHeaderLBA;
-    unsigned int partCount = gptHeader->partCount;
     unsigned int partHeaderSize = gptHeader->partHeaderSize;
 
     if (partHeaderSize != 128) {
@@ -174,6 +170,15 @@ void processGPTPartitionHeader(char *drv, GPTHeader *gptHeader)
         startSector++;
     }
 }
+//-----------------------------------------------------------------------------
+void getDriveName(char *drv, unsigned int diskNum)
+{
+#ifdef __linux__
+    sprintf(drv, "/dev/sd%c", 'a' + diskNum);
+#else
+    sprintf(drv, "\\\\.\\PhysicalDrive%d", diskNum);
+#endif
+}
 //---------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
@@ -186,11 +191,16 @@ int main(int argc, char* argv[])
         diskNum = atoi(argv[1]);
     }
 
-    sprintf(drv, "\\\\.\\PhysicalDrive%d", diskNum);
+    getDriveName(drv, diskNum);
 
     unsigned long long sector = 1;
     char secBuf[SECTOR_SIZE];
-    ReadSect(drv, secBuf, sector);
+    bool res = ReadSect(drv, secBuf, sector);
+
+    if (!res) {
+        printf("Can't read sector \r\n");
+        return -1;
+    }
 
     GPTHeader *gptHeader;
     gptHeader = (GPTHeader*)secBuf;
@@ -205,6 +215,5 @@ int main(int argc, char* argv[])
 
     printf("\r\n");
 
-    system("pause");
     return 0;
 }
