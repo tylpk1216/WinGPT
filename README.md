@@ -15,4 +15,4 @@ It can also check SSD 4K alignment.
 2. You can use argv to dump another disk information -> "WinGPT.exe 1".
 
 ## Running
-![running](Result.png)
+![running](/image/Result.png)
