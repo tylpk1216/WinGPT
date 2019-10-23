@@ -10,7 +10,7 @@ It can also be built on Ubuntu.
 ## How to build
 1. Download TDM-GCC-64.
 2. Modify Build.bat for your installation path.
-3. Run Build.bat.
+3. Run Build.bat (Windows) or Build.sh (Ubuntu).
 
 ## FAQ
 1. If you run it on Windows 10, you must use CMD windows that has administrator privilege.
